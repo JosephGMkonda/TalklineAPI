@@ -2,11 +2,10 @@ from rest_framework.serializers import(HyperlinkedIdentityField,ModelSerializer,
 from .models import Post
 from accounts.serializer import userDetailsSerializer
 
-from comments.serializer import CommentSerializer
-from comments.models import Comment
+
 class PostSerializer(ModelSerializer):
     user = userDetailsSerializer(read_only=True)
-    comments = SerializerMethodField()
+
    
     class Meta:
         model = Post
@@ -17,13 +16,9 @@ class PostSerializer(ModelSerializer):
             'picture',
             'published',
             'updated',
-            'comments'
+            
         ]
 
-    def get_comments(self, obj):
-        c_qs = Comment.objects.filter_by_instance(obj)
-        comments = CommentSerializer(c_qs, many=True).data
-        return comments
 
 
 

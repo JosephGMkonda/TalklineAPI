@@ -34,9 +34,8 @@ from comments.models import Comment
 
 
 from .serializer import (
-    CommentListSerializer,
-    CommentDetailSerializer,
-    create_comment_serializer
+    CommentSerializer,
+    
     )
 
 
@@ -62,7 +61,7 @@ class CommentCreateAPIView(CreateAPIView):
 
 class CommentDetailAPIView(DestroyModelMixin, UpdateModelMixin, RetrieveAPIView):
     queryset = Comment.objects.filter(id__gte=0)
-    serializer_class = CommentDetailSerializer
+    serializer_class = CommentSerializer
     permission_classes = [IsOwnerOrReadOnly]
 
     def put(self, request, *args, **kwargs):
@@ -76,7 +75,7 @@ class CommentDetailAPIView(DestroyModelMixin, UpdateModelMixin, RetrieveAPIView)
 
 
 class CommentListAPIView(ListAPIView):
-    serializer_class = CommentListSerializer
+    serializer_class = CommentSerializer
     permission_classes = [AllowAny]
     filter_backends= [SearchFilter, OrderingFilter]
     search_fields = ['content', 'user__first_name']

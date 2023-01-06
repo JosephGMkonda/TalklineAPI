@@ -11,8 +11,6 @@ from django.utils.safestring import mark_safe
 
 import uuid
 
-from comments.models import Comment
-
 class PostManager(models.Manager):
     def active(self,*args, **kwargs):
         return super(PostManager,self).filter(draft=False).filter(publish__lte=timezone.now)
@@ -56,11 +54,7 @@ class Post(models.Model):
         instance = self
         content_type= ContentType.objects.get_for_model(instance.__class__)
         return content_type
-    @property
-    def comments(self):
-        instance = self
-        qs = Comment.objects.filter_by_instance(instance)
-        return qs
+    
 
 def create_slug(instance, new_slug=None):
     slug = slugify(instance.content)
